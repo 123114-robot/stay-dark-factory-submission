@@ -1,0 +1,27 @@
+{
+  "name": "Stay Tablekeeper Factory",
+  "version": "0.1.0-draft",
+  "status": "submission-planning-only",
+  "seats": [
+    {"name": "Planner", "mandate": "mandates/planner.md", "owns": ["scope", "acceptance criteria", "handoffs"]},
+    {"name": "Builder", "mandate": "mandates/builder.md", "owns": ["implementation", "focused tests", "evidence receipt"]},
+    {"name": "Verifier", "mandate": "mandates/verifier.md", "owns": ["independent validation", "adversarial checks", "certification"]}
+  ],
+  "flow": [
+    "specification_to_plan",
+    "plan_to_builder",
+    "builder_to_verifier",
+    "verifier_block_or_certify",
+    "planner_records_stage"
+  ],
+  "required_evidence": [
+    "fresh_room_export",
+    "bidirectional_agent_handoffs",
+    "git_history",
+    "official_harness_output",
+    "container_build_and_run",
+    "secret_scan",
+    "demo_recording"
+  ],
+  "unverified": ["application implementation", "official harness pass", "container execution", "final submission eligibility"]
+}
