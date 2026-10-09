@@ -32,3 +32,12 @@
 ## Attribution
 
 If a licensed dependency, official starter, or official test harness is used, record its source, license, version, and the exact boundary between upstream material and original work.
+
+## This evidence branch
+
+The Stage 1–4 application files were transferred from the team's working repository
+`natchaphat5106-collab/dark-factory-tablekeeper`, branch `feature/stage-4-ui`, source
+commit `c7a3cc3069583f7af46b6ebafa91ba3cdcb82937`. The full BAND room export records the
+development and review activity. This packaging branch does not relabel that history as
+work authored by the packaging commit, and it does not claim compatibility with the
+current official track specification where that compatibility was not verified.

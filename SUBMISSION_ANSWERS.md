@@ -1,47 +1,33 @@
-# Submission Answers Draft
+# Submission Answers — Evidence-Bounded Draft
 
 ## Project name
 
 Stay Tablekeeper Factory
 
-## One sentence summary
+## One-sentence summary
 
-Stay Tablekeeper Factory is a three-agent software factory that plans, builds, and independently verifies a restaurant reservation service against explicit acceptance gates.
+A three-seat BAND factory planned, implemented, rejected, repaired, and reviewed a four-stage restaurant-reservation system with concurrency-safe storage and a responsive browser workflow.
 
-## Problem
+## Product demonstrated
 
-Restaurant reservation systems fail in difficult but realistic conditions such as concurrent booking requests, duplicated network delivery, invalid local times, and partial updates. A convincing solution must do more than display a booking screen: it must prove that critical invariants hold under contention and failure.
+The preserved implementation contains a SQLite reservation core, idempotent writes, concurrency and timezone tests, availability logic, operational hardening, and a Stage 4 web application with setup, search, booking, lookup, cancellation, same-origin proxying, Docker packaging, and Playwright coverage.
 
-## Solution
+## Factory design
 
-The factory assigns three independent seats:
+- Planner owns scope, ordering, acceptance gates, and handoffs.
+- Implementer writes scoped changes and returns exact receipts.
+- Reviewer independently reproduces claims, attacks likely failures, and returns PASS or a bounded blocker.
 
-1. Planner converts the specification into bounded tasks and measurable acceptance criteria.
-2. Builder implements only the active task and returns an evidence receipt.
-3. Verifier reruns tests, challenges the implementation, and either blocks or certifies the stage.
+The run records real rejection and repair cycles. Review found missing or incorrectly located UI artifacts, path-resolution and traversal concerns, dead request-helper code, misleading documentation, and an E2E shortcut that inserted hours directly. These were routed back into bounded corrections and re-reviewed.
 
-The intended product is a containerized reservation service with a browser interface. Critical booking guarantees are enforced in the persistence layer, while the factory records decisions, failures, fixes, and verification results.
+## Verified evidence
 
-## Why BAND
+Project tests passed at 57/57, 28/28, 54/54, and 81/81 across Stages 1–4. Stage 4 Playwright passed 5/5, and its Docker image built and served both `/health` and the UI. The full BAND room is preserved as `room.json`.
 
-BAND is used as the coordination and evidence layer for the multi-agent run. The value is not a scripted conversation: each seat has a distinct mandate, agents hand work to one another, and the Verifier can reject the Builder's result without waiting for a human to direct every step.
+## Required disclosure
 
-## Agent teamwork
+This is not yet a final official-harness claim. The current official Tablekeeper specification uses a different staged API contract, and the official preflight reports missing Stage 1–3 packaging. The Stage 4 recovery also included human continuation messages, so the room must not be presented as a zero-intervention scored run. See `SUBMISSION_COMPLIANCE.md`.
 
-The Planner owns scope and acceptance criteria. The Builder owns implementation and targeted tests. The Verifier owns independent reproduction, adversarial checks, and the final verdict. A stage cannot advance on the Builder's self-report alone.
+## Suggested presentation language
 
-## Recovery design
-
-When work fails, the factory preserves the current evidence, identifies the smallest blocking defect, returns a bounded correction task to the Builder, and requires the Verifier to rerun the failed gate. Repeated or ambiguous failures are reported as blockers instead of being hidden by broad rewrites.
-
-## Original contribution
-
-This submission uses an original factory description, mandates, implementation, test data, UI, and narrative. It borrows only general software-engineering patterns. It does not copy another participant's code, documentation, prompts, test output, or commit history.
-
-## Current evidence statement
-
-This document is a submission draft. A final claim of completion requires a fresh BAND room export, generated repository history, official harness output, container build evidence, UI evidence, and a recorded demo. Until those artifacts exist, application completion remains UNVERIFIED.
-
-## Suggested short pitch
-
-Stay Tablekeeper Factory turns a reservation specification into a traceable build-and-review process. A Planner defines measurable gates, a Builder implements the stage, and an independent Verifier attacks the result before certification. The final demo shows both the reservation product and the factory evidence that explains why the result should be trusted.
+Present this branch as an auditable engineering artifact and recovery case study. Do not state that it passes the current official Dark Factory harness or satisfies the autonomy gate unless a new compliant run and official isolated harness evidence are produced.

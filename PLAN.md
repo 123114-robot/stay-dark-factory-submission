@@ -1,48 +1,24 @@
-# Minimum Submission Plan
+# Publication and Compliance Plan
 
-## Objective
+## Completed for this evidence branch
 
-Produce one eligible, evidence-backed Stage 1 implementation and a truthful submission package before attempting optional stages.
+1. Preserve the Stage 1–4 files from the reviewed team worktree.
+2. Preserve the unmodified full BAND room export.
+3. Replace draft mandate names with the actual Planner, Implementer, and Reviewer seat names.
+4. Record runtime/model metadata, source revision, commands, pass counts, problems, and recovery actions.
+5. Compare the result against the current official guide and disclose every gap.
+6. Publish on a branch owned by `123114-robot`; do not bypass teammate-repository permissions.
 
-## Phase 1 Specification lock
+## Required before claiming an official passing submission
 
-- Use the official track specification as the source of truth.
-- Record required endpoints, state behavior, error contracts, test controls, port behavior, and packaging requirements.
-- Treat teammate or competitor repositories only as non-authoritative references.
+1. Lock the current official Tablekeeper specifications as the source of truth.
+2. Implement the official API and UI contract stage by stage in a fresh factory run.
+3. Give each claimed stage a complete standalone Dockerfile and RUN.md.
+4. Run official `harness check` successfully.
+5. Run every claimed stage through official isolated Docker mode.
+6. Retain the exact harness reports, fresh room export, commit history, and secret scan.
+7. Record the required BAND-room and product video and create slides.
 
-Exit gate: Planner publishes a traceability table from each official requirement to an acceptance test.
+## Stop condition
 
-## Phase 2 Clean BAND run
-
-- Start a fresh room with Planner, Builder, and Verifier.
-- Give only the project objective and authoritative inputs.
-- Do not issue mid-run implementation instructions.
-- Preserve bidirectional agent mentions and handoffs.
-
-Exit gate: the room log proves that at least two seats addressed and answered one another and that verification occurred independently.
-
-## Phase 3 Application gate
-
-- Build the minimum official Stage 1 behavior.
-- Add a Dockerfile and RUN.md in the required location.
-- Run targeted tests, then the official isolated harness.
-- Scan tracked content for secrets.
-
-Exit gate: clean container build, service startup, official Stage 1 harness pass, and zero tracked secrets.
-
-## Phase 4 Submission package
-
-- Export the complete room log.
-- Add accurate README setup and architecture sections.
-- Create slides that distinguish demonstrated facts from planned work.
-- Record a short video showing the BAND handoffs, repository evidence, container start, and product behavior.
-
-Exit gate: every public claim maps to a visible artifact.
-
-## Non-goals until eligibility is secured
-
-- copying another participant's UI or source
-- polishing a large frontend
-- claiming later stages without harness evidence
-- publishing secrets or private room credentials
-- replacing missing proof with screenshots of text claims
+Do not submit claims of official compatibility, isolated-harness PASS, or zero-intervention autonomy while `SUBMISSION_COMPLIANCE.md` contains a FAIL, MISSING, or NOT ESTABLISHED result for that claim.

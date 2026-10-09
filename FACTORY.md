@@ -2,45 +2,69 @@
 
 ## Purpose
 
-This factory produces a specification-conformant service through explicit planning, bounded implementation, and independent verification. The workflow is generic and must not contain track-specific endpoints, fields, or error codes in the seat mandates.
+This factory separates planning, implementation, and independent review so that no implementation seat certifies its own work. It is reusable because the seat mandates describe behavior rather than Tablekeeper endpoints or fields.
 
-## Seats
+## Actual seats
 
-- Planner owns task boundaries, dependencies, acceptance criteria, and handoffs.
-- Builder owns implementation, focused tests, and an exact change receipt.
-- Verifier owns independent test execution, adversarial review, and certification.
+| Seat | Responsibility | May certify? |
+| --- | --- | --- |
+| Planner | Converts owner objectives into bounded tasks, file scope, ordering, and measurable gates | No |
+| Implementer | Uses TDD where practical, changes only the open scope, and returns exact evidence receipts | No |
+| Reviewer | Reproduces claims, adds adversarial checks, rejects defects, and issues the final verdict | Yes |
 
-## Workflow
+The mandate filenames match the room display names: `planner.md`, `implementer.md`, and `reviewer.md`.
 
-1. Planner reads the authoritative specification and current repository state.
-2. Planner publishes one bounded task with allowed files, non-goals, and observable acceptance criteria.
-3. Planner tags Builder with that task.
-4. Builder inspects the current state, implements the smallest compliant change, runs targeted tests, and tags Verifier with a receipt.
-5. Verifier checks the actual files and reruns the claimed commands. The Verifier also tests at least one likely failure mode.
-6. If blocked, Verifier returns a precise defect and reproduction command to Builder.
-7. Builder fixes only the blocking defect and returns a new receipt.
-8. Verifier certifies only when every acceptance criterion has direct evidence.
-9. Planner records the stage result and opens the next bounded task.
+## Runtime
 
-## Stop conditions
+- Coordination: BAND room
+- Harness: OpenCode through three local BAND adapters
+- Model: `featherless/moonshotai/Kimi-K2.5`
+- Shared worktree: `C:\Users\deba3\band-work\result`
+- Working branch: `feature/stage-4-ui`
 
-- Stop if the authoritative specification is missing or contradictory.
-- Stop if the workspace contains unknown changes in frozen scope.
-- Stop if a required test cannot run; report it as UNVERIFIED.
-- Stop if verification depends only on the Builder's statement.
-- Stop if secrets, credentials, or personal data appear in tracked files or logs.
+Provider credits and exact model-token spend were not exported in a reliable machine-readable receipt, so monetary cost is `UNVERIFIED`. The room timestamps and adapter logs are retained for elapsed-time reconstruction.
+
+## Work loop
+
+1. Owner supplies the authoritative task, repository, branch, frozen scope, acceptance gates, and stop conditions.
+2. Planner reads the repository and publishes one executable task.
+3. Planner tags Implementer with scope, non-goals, and commands.
+4. Implementer writes a failing test when practical, implements the smallest change, runs targeted checks, and returns a receipt.
+5. Reviewer opens the actual files, reruns commands, checks scope and secrets, and attacks the most likely false-positive path.
+6. On failure, Reviewer names a concrete reproduction and the minimum acceptable correction.
+7. Planner routes the bounded correction to Implementer.
+8. Reviewer reruns the failed gate and either rejects again or certifies the exact commit/tree.
 
 ## Evidence receipt
 
-Each handoff records:
+Every handoff should state:
 
-- starting revision and branch
+- repository and branch
+- starting and resulting revisions
 - files changed
-- commands executed
-- pass, fail, and skipped counts
-- known limitations and UNVERIFIED items
-- whether any push, merge, or deployment occurred
+- commands executed and observed results
+- scope and secret checks
+- skipped or unavailable checks
+- push, merge, and deployment state
 
-## Certification rule
+## Failure handling demonstrated in the preserved room
 
-Only the Verifier may certify a stage. Certification means the repository state, tests, and required packaging were inspected directly. It does not prove deployment, browser behavior, or external-service access unless those were separately exercised and recorded.
+- Wrong workspace: stop rather than recreate frozen stages.
+- Provider or adapter stall: preserve the checkpoint and restart only the missing process.
+- Claimed files absent: reject the receipt and require exact path evidence.
+- Tests validating fixtures instead of shipped UI: redirect tests to canonical files.
+- Path and documentation defects: require mutation-capable regression tests and correct the claim.
+- Docker unavailable: record `UNVERIFIED` instead of converting absence into PASS.
+- SHA ambiguity: compare commit, parent, tree, and raw diff digest before locking the receipt.
+
+## Guardrails
+
+- Frozen stages are not modified by a later stage.
+- Test fixtures must be explicit and disposable; they cannot masquerade as production UI.
+- No seat pushes or merges unless the owner opens that operation.
+- No secret or credential belongs in source, logs, mandates, or the exported room.
+- A project-test PASS is not called an official-harness PASS.
+
+## Known limitation of this run
+
+Human continuation messages were used during recovery from provider/adapter interruptions. The room is therefore useful evidence of collaboration and failure recovery, but this repository does not call it a zero-intervention scored run.
