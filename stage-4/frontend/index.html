@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tablekeeper - Restaurant Reservation Management</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Tablekeeper</h1>
+    <p class="tagline">Restaurant Reservation Management</p>
+    <div id="connection-status" class="connection-status" role="status" aria-live="polite">
+      <span class="status-indicator" aria-hidden="true"></span>
+      <span class="status-text">Checking connection...</span>
+    </div>
+  </header>
+
+  <nav class="app-nav" aria-label="Main navigation">
+    <button class="nav-btn active" data-section="setup" aria-current="page">Setup</button>
+    <button class="nav-btn" data-section="search">Search</button>
+    <button class="nav-btn" data-section="book">Book</button>
+    <button class="nav-btn" data-section="manage">Manage</button>
+  </nav>
+
+  <main class="app-main">
+    <!-- Global Status Region -->
+    <div id="global-status" class="global-status" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Section: Setup -->
+    <section id="section-setup" class="section active" aria-labelledby="setup-heading">
+      <h2 id="setup-heading">Restaurant and Table Setup</h2>
+
+      <div class="card">
+        <h3>Create Restaurant</h3>
+        <form id="restaurant-form" class="form" novalidate>
+          <p class="form-error" id="restaurant-form-error" role="alert"></p>
+          <div class="form-group">
+            <label for="restaurant-name">Restaurant Name</label>
+            <input type="text" id="restaurant-name" name="name" required autocomplete="off" aria-required="true" aria-describedby="restaurant-form-error">
+          </div>
+          <div class="form-group">
+            <label for="restaurant-timezone">Time Zone</label>
+            <select id="restaurant-timezone" name="timezone" required aria-required="true" aria-describedby="restaurant-form-error">
+              <option value="">Select a timezone...</option>
+              <option value="Australia/Sydney">Australia/Sydney</option>
+              <option value="America/New_York">America/New_York</option>
+              <option value="Europe/London">Europe/London</option>
+              <option value="Asia/Kathmandu">Asia/Kathmandu</option>
+              <option value="Australia/Eucla">Australia/Eucla</option>
+              <option value="Pacific/Chatham">Pacific/Chatham</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" id="create-restaurant-btn">
+            Create Restaurant
+          </button>
+        </form>
+        <div id="restaurant-result" class="result" role="region" aria-live="polite"></div>
+      </div>
+
+      <div class="card" id="table-setup-card" style="display: none;">
+        <h3>Create Tables</h3>
+        <form id="table-form" class="form" novalidate>
+          <p class="form-error" id="table-form-error" role="alert"></p>
+          <div class="form-group">
+            <label for="table-seats">Seats (positive integer)</label>
+            <input type="number" id="table-seats" name="seats" min="1" step="1" required aria-required="true" aria-describedby="table-form-error">
+          </div>
+          <button type="submit" class="btn btn-primary" id="create-table-btn">
+            Add Table
+          </button>
+        </form>
+        <div id="tables-list" class="tables-list" role="region" aria-live="polite"></div>
+      </div>
+
+      <div class="card quick-demo">
+        <h3>Quick Demo Setup</h3>
+        <p>Automatically create a sample restaurant with two tables.</p>
+        <button id="quick-demo-btn" class="btn btn-secondary">
+          Run Quick Demo Setup
+        </button>
+        <div id="quick-demo-result" class="result" role="region" aria-live="polite"></div>
+      </div>
+
+      <div class="card context-summary" id="context-summary" style="display: none;">
+        <h3>Current Context</h3>
+        <dl class="context-dl">
+          <dt>Restaurant:</dt>
+          <dd id="context-restaurant">None</dd>
+          <dt>Tables:</dt>
+          <dd id="context-tables">None</dd>
+        </dl>
+        <button id="clear-context-btn" class="btn btn-text">Clear Context</button>
+      </div>
+    </section>
+
+    <!-- Section: Search -->
+    <section id="section-search" class="section" aria-labelledby="search-heading">
+      <h2 id="search-heading">Check Availability</h2>
+
+      <div class="card">
+        <form id="search-form" class="form" novalidate>
+          <p class="form-error" id="search-form-error" role="alert"></p>
+          <div class="form-group">
+            <label for="search-restaurant-id">Restaurant ID</label>
+            <input type="text" id="search-restaurant-id" name="restaurant_id" required autocomplete="off" aria-required="true" aria-describedby="search-form-error">
+          </div>
+          <div class="form-group">
+            <label for="search-date">Date (YYYY-MM-DD)</label>
+            <input type="date" id="search-date" name="local_date" required aria-required="true" aria-describedby="search-form-error">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="search-party-size">Party Size</label>
+              <input type="number" id="search-party-size" name="party_size" min="1" step="1" required aria-required="true" aria-describedby="search-form-error">
+            </div>
+            <div class="form-group">
+              <label for="search-duration">Duration (minutes)</label>
+              <input type="number" id="search-duration" name="duration_min" min="15" max="720" step="15" value="60" required aria-required="true" aria-describedby="search-duration-help search-form-error">
+              <small class="help-text" id="search-duration-help">Must be divisible by 15, max 720</small>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="search-btn">
+            Check Availability
+          </button>
+        </form>
+      </div>
+
+      <div id="search-results" class="search-results" role="region" aria-live="polite"></div>
+    </section>
+
+    <!-- Section: Book -->
+    <section id="section-book" class="section" aria-labelledby="book-heading">
+      <h2 id="book-heading">Confirm Booking</h2>
+
+      <div class="card" id="booking-confirmation-card">
+        <h3>Booking Details</h3>
+        <div id="booking-summary" class="booking-summary" role="region" aria-live="polite">
+          <p class="empty-state">Select a time slot from the Search tab to begin booking.</p>
+        </div>
+
+        <form id="booking-form" class="form" style="display: none;">
+          <div class="confirmation-details">
+            <dl class="detail-list">
+              <dt>Restaurant:</dt>
+              <dd id="confirm-restaurant-id"></dd>
+              <dt>Tables:</dt>
+              <dd id="confirm-table-ids"></dd>
+              <dt>Party Size:</dt>
+              <dd id="confirm-party-size"></dd>
+              <dt>Date/Time:</dt>
+              <dd id="confirm-local-start"></dd>
+              <dt>Duration:</dt>
+              <dd id="confirm-duration"></dd>
+            </dl>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="confirm-booking-btn">
+              Confirm Booking
+            </button>
+            <button type="button" class="btn btn-text" id="cancel-booking-btn">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="booking-result" class="booking-result" role="region" aria-live="polite"></div>
+    </section>
+
+    <!-- Section: Manage -->
+    <section id="section-manage" class="section" aria-labelledby="manage-heading">
+      <h2 id="manage-heading">Manage Booking</h2>
+
+      <div class="card">
+        <form id="manage-form" class="form" novalidate>
+          <p class="form-error" id="manage-form-error" role="alert"></p>
+          <div class="form-group">
+            <label for="manage-booking-id">Booking ID</label>
+            <input type="text" id="manage-booking-id" name="booking_id" required autocomplete="off" aria-required="true" aria-describedby="manage-form-error">
+          </div>
+          <button type="submit" class="btn btn-primary" id="retrieve-booking-btn">
+            Retrieve Booking
+          </button>
+        </form>
+      </div>
+
+      <div id="booking-details" class="booking-details" role="region" aria-live="polite"></div>
+
+      <div id="cancel-section" class="cancel-section" style="display: none;">
+        <div class="card warning-card">
+          <h3>Cancel Booking</h3>
+          <p>Are you sure you want to cancel this booking? This action cannot be undone.</p>
+          <div class="form-actions">
+            <button id="confirm-cancel-btn" class="btn btn-danger">
+              Yes, Cancel Booking
+            </button>
+            <button id="abort-cancel-btn" class="btn btn-secondary">
+              No, Keep Booking
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Tablekeeper - Stage 4 Demo</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

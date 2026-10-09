@@ -1,0 +1,553 @@
+/* Tablekeeper — Stage 4 canonical stylesheet.
+   Responsive, accessible, no framework, no external resources. */
+
+:root {
+  --color-bg: #f7f7f9;
+  --color-surface: #ffffff;
+  --color-text: #1a1a2e;
+  --color-text-muted: #4a4a63;
+  --color-border: #c9c9d4;
+  --color-primary: #1f4e9c;
+  --color-primary-hover: #173c7a;
+  --color-primary-text: #ffffff;
+  --color-secondary: #3a3a55;
+  --color-danger: #9e2a2b;
+  --color-danger-text: #ffffff;
+  --color-success: #1d6b3f;
+  --color-success-bg: #e5f5ec;
+  --color-error: #8c1d1e;
+  --color-error-bg: #fdecec;
+  --color-warning-bg: #fff4e0;
+  --color-warning-border: #b26a00;
+  --color-info-bg: #e8f0fe;
+  --color-focus: #0b57d0;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --radius: 6px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ---------- Focus visibility (keyboard operability) ---------- */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+button {
+  font: inherit;
+}
+
+/* ---------- Header ---------- */
+
+.app-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-md) var(--space-lg);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.tagline {
+  margin: var(--space-xs) 0 var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.connection-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  background: var(--color-bg);
+}
+
+/* Status is never color-only: every state also carries a text label below. */
+.connection-status .status-indicator::before {
+  font-weight: 700;
+}
+
+.connection-status.checking .status-indicator::before {
+  content: "\25CB"; /* ring */
+}
+
+.connection-status.connected .status-indicator::before {
+  content: "\2714"; /* check */
+  color: var(--color-success);
+}
+
+.connection-status.unavailable .status-indicator::before {
+  content: "\2716"; /* cross */
+  color: var(--color-error);
+}
+
+/* ---------- Navigation ---------- */
+
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg) 0;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  color: var(--color-text-muted);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.nav-btn:hover {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.nav-btn.active {
+  color: var(--color-primary);
+  font-weight: 700;
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+.nav-btn.active::before {
+  content: "\25B8 "; /* marker so active state is not color-only */
+}
+
+/* ---------- Layout ---------- */
+
+.app-main {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.section h2 {
+  margin-top: 0;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.quick-demo {
+  border-style: dashed;
+}
+
+.warning-card {
+  border: 2px solid var(--color-warning-border);
+  background: var(--color-warning-bg);
+}
+
+/* ---------- Forms ---------- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+select {
+  font: inherit;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  min-height: 2.5rem;
+  max-width: 100%;
+}
+
+input:disabled,
+select:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.help-text {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.form-error {
+  color: var(--color-error);
+  font-size: 0.95rem;
+  min-height: 1.2em;
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  min-height: 2.75rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-secondary);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: var(--color-danger-text);
+}
+
+.btn-danger:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+.btn-text {
+  background: transparent;
+  color: var(--color-primary);
+  text-decoration: underline;
+  border-color: transparent;
+}
+
+.btn[aria-busy="true"]::after {
+  content: "\2026"; /* ellipsis shows pending state without motion */
+}
+
+/* ---------- Status messages ---------- */
+
+.global-status {
+  display: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  margin-bottom: var(--space-md);
+}
+
+.global-status.success {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+}
+
+.global-status.error {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+}
+
+.global-status.info {
+  background: var(--color-info-bg);
+}
+
+.message {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  margin-top: var(--space-sm);
+  overflow-wrap: anywhere;
+}
+
+.message::before {
+  font-weight: 700;
+  margin-right: var(--space-sm);
+}
+
+.message.success {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+}
+
+.message.success::before {
+  content: "\2714 Success:";
+  color: var(--color-success);
+}
+
+.message.error {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+}
+
+.message.error::before {
+  content: "\2716 Error:";
+  color: var(--color-error);
+}
+
+.message.loading {
+  background: var(--color-info-bg);
+  border-color: var(--color-primary);
+}
+
+.message.loading::before {
+  content: "\2026";
+  color: var(--color-primary);
+}
+
+.empty-state {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ---------- Detail lists ---------- */
+
+.detail-list,
+.context-dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-xs) var(--space-md);
+  margin: var(--space-md) 0;
+}
+
+.detail-list dt,
+.context-dl dt {
+  font-weight: 700;
+}
+
+.detail-list dd,
+.context-dl dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0 var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-weight: 700;
+  background: var(--color-bg);
+}
+
+.status-badge.cancelled {
+  text-decoration: line-through;
+}
+
+.status-badge::before {
+  content: "\25CF ";
+}
+
+/* ---------- Tables ---------- */
+
+.tables-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+.tables-table th,
+.tables-table td {
+  border: 1px solid var(--color-border);
+  padding: var(--space-sm);
+  text-align: left;
+}
+
+.tables-list .message {
+  margin-bottom: var(--space-sm);
+}
+
+/* ---------- Availability slots ---------- */
+
+.slots-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.slot-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: var(--color-bg);
+}
+
+.slot-time {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: baseline;
+}
+
+.slot-utc {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.slot-tables {
+  overflow-wrap: anywhere;
+}
+
+.slot-tables .label {
+  font-weight: 600;
+}
+
+.slot-card .btn {
+  align-self: flex-start;
+}
+
+/* ---------- Context summary ---------- */
+
+.context-dl {
+  margin-bottom: var(--space-sm);
+}
+
+/* ---------- Footer ---------- */
+
+.app-footer {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--space-lg);
+  font-size: 0.9rem;
+}
+
+/* ---------- Responsive: single readable column below ~640px ---------- */
+
+@media (max-width: 640px) {
+  .app-main {
+    padding: var(--space-md);
+  }
+
+  .app-header,
+  .app-nav {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .detail-list,
+  .context-dl {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .detail-list dt,
+  .context-dl dt {
+    margin-top: var(--space-sm);
+  }
+
+  .card {
+    padding: var(--space-md);
+  }
+
+  .nav-btn {
+    flex: 1 1 auto;
+    text-align: center;
+    min-height: 2.75rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .slot-card .btn {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  body {
+    overflow-wrap: anywhere;
+  }
+}

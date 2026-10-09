@@ -1,0 +1,31 @@
+{
+  "name": "tablekeeper-stage-4",
+  "version": "1.0.0",
+  "description": "Stage 4 - Product surface and delivery for TableKeeper",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:unit": "node --test test/server.test.mjs test/request-state.test.mjs",
+    "start": "node deploy/start.mjs",
+    "serve": "node frontend/serve.mjs",
+    "typecheck": "node --check frontend/app.js && node --check frontend/serve.mjs && node --check deploy/start.mjs && node --check deploy/demo.mjs && node --check test/helpers/ui.mjs",
+    "docker:build": "docker build -f Dockerfile -t tablekeeper-stage4 ..",
+    "docker:run": "docker run --rm -p 8080:8080 tablekeeper-stage4",
+    "test:e2e": "playwright test --config test/playwright.config.ts"
+  },
+  "keywords": [
+    "tablekeeper",
+    "restaurant",
+    "booking",
+    "stage-4"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=23.6.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "jsdom": "^29.1.1"
+  }
+}
